@@ -16,8 +16,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomePageState extends State<Home> {
-  int _counter = 0;
-
   List<Restaurant> restaurants = [];
 
   void _addRestaurant() {
@@ -49,6 +47,10 @@ class _HomePageState extends State<Home> {
     return tbl;
   }
 
+  void refresh() {
+    setState(() {});
+  }
+
   // @override
   // void initState() {
   //   // TODO: implement initState
@@ -71,7 +73,7 @@ class _HomePageState extends State<Home> {
             physics: const AlwaysScrollableScrollPhysics(),
             itemCount: restaurants.length,
             itemBuilder: (_, int index) {
-              return RestaurantCard(restaurant: restaurants[index], index: index, prefs: widget.prefs,);
+              return RestaurantCard(restaurant: restaurants[index], index: index, prefs: widget.prefs, refresh: refresh);
             },
           ),
       ),

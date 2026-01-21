@@ -8,25 +8,30 @@ import 'package:home_assignment/screens/details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RestaurantCard extends StatelessWidget {
-  const RestaurantCard({super.key, required this.restaurant, required this.index, required this.prefs});
+  const RestaurantCard({super.key, required this.restaurant, required this.index, required this.prefs, required this.refresh});
 
   final Restaurant restaurant;
   final int index;
   final SharedPreferences prefs;
+  
+  final Function refresh;
 
   void viewDetails(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (ctx) => DetailsPage(
         restaurant: restaurant,
         prefs: prefs,
-        index: index
+        index: index,
       ))
-    );
+    ).then((_) => {
+      refresh()
+    });
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement builds
     return Card(
       margin: const EdgeInsets.all(8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
