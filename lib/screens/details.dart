@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_rating/flutter_rating.dart';
-import 'package:home_assignment/model/restaurant.dart';
-import 'package:home_assignment/screens/form.dart';
+import 'package:local_reviewer/model/restaurant.dart';
+import 'package:local_reviewer/screens/form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -12,7 +12,12 @@ class DetailsPage extends StatefulWidget {
   final SharedPreferences prefs;
   final int index;
 
-  const DetailsPage({super.key, required this.restaurant, required this.prefs, required this.index});
+  const DetailsPage({
+    super.key,
+    required this.restaurant,
+    required this.prefs,
+    required this.index,
+  });
 
   @override
   State<DetailsPage> createState() => _DetailsPageState();
@@ -21,15 +26,23 @@ class DetailsPage extends StatefulWidget {
 class _DetailsPageState extends State<DetailsPage> {
   late Restaurant rest = widget.restaurant;
   void _edit(context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (ctx) => FormPage(prefs: widget.prefs, restaurant: widget.restaurant, index: widget.index,))
-    ).then((result) {
-      setState(() {
-        if(result is Restaurant) {
-          rest = result;
-        }
-      });
-    });
+    Navigator.of(context)
+        .push(
+          MaterialPageRoute(
+            builder: (ctx) => FormPage(
+              prefs: widget.prefs,
+              restaurant: widget.restaurant,
+              index: widget.index,
+            ),
+          ),
+        )
+        .then((result) {
+          setState(() {
+            if (result is Restaurant) {
+              rest = result;
+            }
+          });
+        });
   }
 
   void _delete(context) {
@@ -47,7 +60,7 @@ class _DetailsPageState extends State<DetailsPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(rest.name,),
+        title: Text(rest.name),
       ),
 
       body: PopScope(
@@ -55,26 +68,26 @@ class _DetailsPageState extends State<DetailsPage> {
           padding: const EdgeInsets.all(16.0),
           child: ListView(
             shrinkWrap: false,
-              physics: const AlwaysScrollableScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(),
             children: [
               Image.file(
-                File(rest.review.reviewImage), 
-                fit: BoxFit.cover, 
-                height: 200, 
+                File(rest.review.reviewImage),
+                fit: BoxFit.cover,
+                height: 200,
                 width: double.infinity,
               ),
               SizedBox(height: 16),
-              StarRating(rating: rest.rating),
+              StarRating(rating: rest.rating, color: Theme.of(context).colorScheme.primary, borderColor: Theme.of(context).colorScheme.primary,),
               SizedBox(height: 8),
               Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondaryContainer
+                  color: Theme.of(context).colorScheme.secondaryContainer,
                 ),
                 child: ListTile(
                   title: Text(rest.review.title),
                   subtitle: Text(rest.review.content),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -84,9 +97,30 @@ class _DetailsPageState extends State<DetailsPage> {
         type: ExpandableFabType.up,
         distance: 50,
         children: [
-        FloatingActionButton.small(heroTag: null, onPressed: () => { _edit(context)}, child: const Icon(Icons.edit)),
-        FloatingActionButton.small(heroTag: null, onPressed: () => { _delete(context)}, child: const Icon(Icons.delete)),
-      ]), // T
+          Row(
+            children: [
+              Text("Edit"),
+              SizedBox(width: 20),
+              FloatingActionButton.small(
+                heroTag: null,
+                onPressed: () => {_edit(context)},
+                child: const Icon(Icons.edit),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text("Delete"),
+              SizedBox(width: 20),
+              FloatingActionButton.small(
+                heroTag: null,
+                onPressed: () => {_delete(context)},
+                child: const Icon(Icons.delete),
+              ),
+            ],
+          ),
+        ],
+      ), // T
     );
   }
 }

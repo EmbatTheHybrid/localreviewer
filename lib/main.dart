@@ -1,9 +1,18 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:home_assignment/screens/home.dart';
+import 'package:local_reviewer/screens/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // makes sure plugins are initialized
+  AwesomeNotifications().initialize(null, [    
+    NotificationChannel(     
+    ledColor: Colors.pink,       
+    enableVibration: true,        
+    channelKey: "restaurant_change",        
+    channelName: "Restaurant Change",        
+    channelDescription: 'Notifications for when restaurant is changed')  ]);
+
   final prefs =
       await SharedPreferences.getInstance(); // however you create your service
   runApp(MyApp(prefs: prefs));

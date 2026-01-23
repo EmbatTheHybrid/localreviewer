@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:home_assignment/model/restaurant.dart';
-import 'package:home_assignment/model/review.dart';
-import 'package:home_assignment/screens/form.dart';
-import 'package:home_assignment/widgets/restaurant_card.dart';
+import 'package:local_reviewer/model/restaurant.dart';
+import 'package:local_reviewer/model/review.dart';
+import 'package:local_reviewer/screens/form.dart';
+import 'package:local_reviewer/widgets/restaurant_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {

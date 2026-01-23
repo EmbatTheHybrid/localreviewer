@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
-import 'package:home_assignment/model/restaurant.dart';
-import 'package:home_assignment/screens/details.dart';
+import 'package:local_reviewer/model/restaurant.dart';
+import 'package:local_reviewer/screens/details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RestaurantCard extends StatelessWidget {

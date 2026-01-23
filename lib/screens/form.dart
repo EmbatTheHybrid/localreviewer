@@ -1,7 +1,8 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:home_assignment/model/restaurant.dart';
-import 'package:home_assignment/model/review.dart';
+import 'package:local_reviewer/model/restaurant.dart';
+import 'package:local_reviewer/model/review.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -72,7 +73,7 @@ class _FormPageState extends State<FormPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if(widget.restaurant == null) {
+    if (widget.restaurant == null) {
       return;
     }
 
@@ -109,7 +110,9 @@ class _FormPageState extends State<FormPage> {
                     }
                     return null;
                   },
-                  initialValue: widget.restaurant != null ? widget.restaurant!.name : '',
+                  initialValue: widget.restaurant != null
+                      ? widget.restaurant!.name
+                      : '',
                   onSaved: (newValue) {
                     _restaurantName = newValue!;
                   },
@@ -146,7 +149,7 @@ class _FormPageState extends State<FormPage> {
                       onPressed: () => {
                         _pickImageFromCamera(_restaurantImageController),
                       },
-                      child: Text("From Camera"),
+                      child: Text("Take Picture"),
                     ),
                   ],
                 ),
@@ -168,7 +171,9 @@ class _FormPageState extends State<FormPage> {
                     }),
                   ],
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  initialValue: widget.restaurant != null ? widget.restaurant!.rating.toString() : '',
+                  initialValue: widget.restaurant != null
+                      ? widget.restaurant!.rating.toString()
+                      : '',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Field must have a value';
@@ -192,7 +197,9 @@ class _FormPageState extends State<FormPage> {
                     border: OutlineInputBorder(),
                     label: Text("Review Title"),
                   ),
-                  initialValue: widget.restaurant != null ? widget.restaurant!.review.title : '',
+                  initialValue: widget.restaurant != null
+                      ? widget.restaurant!.review.title
+                      : '',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Field must have a value';
@@ -211,7 +218,9 @@ class _FormPageState extends State<FormPage> {
                     label: Text("Review Content"),
                   ),
                   maxLines: 3,
-                  initialValue: widget.restaurant != null ? widget.restaurant!.review.content : '',
+                  initialValue: widget.restaurant != null
+                      ? widget.restaurant!.review.content
+                      : '',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Field must have a value';
@@ -255,7 +264,7 @@ class _FormPageState extends State<FormPage> {
                       onPressed: () => {
                         _pickImageFromCamera(_reviewImageController),
                       },
-                      child: Text("From Camera"),
+                      child: Text("Take Picture"),
                     ),
                   ],
                 ),
@@ -280,6 +289,28 @@ class _FormPageState extends State<FormPage> {
                       _addToList(restaurant);
 
                       _formKey.currentState!.reset();
+
+                      AwesomeNotifications().isNotificationAllowed().then((
+                        isAllowed,
+                      ) {
+                        if (!isAllowed) {
+                          AwesomeNotifications()
+                              .requestPermissionToSendNotifications();
+                        } else {
+                          AwesomeNotifications().createNotification(
+                            content: NotificationContent(
+                              id: 1,
+                              color: Colors.purple,
+                              channelKey: 'restaurant_change',
+                              title:
+                                  "Restaurant '${restaurant.name}' has been ${widget.index != null ? "editted" : "created"}",
+                              body: "Tap to view changes",
+                              wakeUpScreen: true,
+                            ),
+                          );
+                        }
+                      });
+
                       Navigator.pop(context, restaurant);
                     }
                   },

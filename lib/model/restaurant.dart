@@ -1,5 +1,5 @@
 
-import 'package:home_assignment/model/review.dart';
+import 'package:local_reviewer/model/review.dart';
 
 class Restaurant {
 
