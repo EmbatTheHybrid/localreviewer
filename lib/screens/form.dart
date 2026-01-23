@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:local_reviewer/model/restaurant.dart';
 import 'package:local_reviewer/model/review.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:local_reviewer/widgets/AnalyticsService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FormPage extends StatefulWidget {
@@ -310,6 +311,10 @@ class _FormPageState extends State<FormPage> {
                           );
                         }
                       });
+
+                      if (widget.index == null) {
+                        AnalyticsService().logCreateRestaurant();
+                      }
 
                       Navigator.pop(context, restaurant);
                     }
